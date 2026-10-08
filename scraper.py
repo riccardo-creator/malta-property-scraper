@@ -2,7 +2,7 @@ import requests
 import json
 
 # INCOLLA QUI IL TUO WEB APP URL REALE DI GOOGLE APPS SCRIPT
-GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz612oANUcARFnX751Ht3quGQpbupOCVN63uBbM7RK4QkJWOifcFaYrz0jDoPZiYyl0vw/exec"
+GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzz5um-auVXQo3a2mt09WrjyX0HaLDElFP6EK1h31Rx6Q5GBp6REcyTXCKVFyT0FlyOLg/exec"
 
 def send_to_google_sheet(property_data):
     try:
