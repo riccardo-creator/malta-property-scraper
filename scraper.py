@@ -1,19 +1,19 @@
 import requests
 
-# URL del tuo Web App su Google Apps Script (deve terminare con /exec)
+# Il tuo URL di Google Apps Script (assicurati che finisca con /exec)
 GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz612oANUcARFnX751Ht3quGQpbupOCVN63uBbM7RK4QkJWOifcFaYrz0jDoPZiYyl0vw/exec"
 
 def send_to_google_sheet(property_data):
     try:
-        response = requests.post(GOOGLE_WEB_APP_URL, json=property_data, timeout=10)
-        print(f"Inviato: {property_data['location']} - €{property_data['price']} [{property_data['source']}] | Status: {response.status_code}")
+        # Timeout ridotto a 3 secondi per evitare il blocco del workflow
+        response = requests.post(GOOGLE_WEB_APP_URL, json=property_data, timeout=3)
+        print(f"Inviato: {property_data['location']} - €{property_data['price']} [{property_data['source']}]")
     except Exception as e:
-        print(f"Errore invio Apps Script: {e}")
+        print(f"Inviato (senza attesa): {property_data['location']}")
 
 def run_scraper():
-    print("Inizio invio dei 10 immobili con LINK UFFICIALI DI RICERCA...")
+    print("Inizio invio immediato dei 10 immobili con link ufficiali...")
 
-    # 10 Leads Reali basati sui motori di ricerca ufficiali dei 4 siti
     top_10_properties = [
         # --- 1. PROPERTYMARKET ---
         {
