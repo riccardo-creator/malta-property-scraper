@@ -25,11 +25,11 @@ def scrape_portals():
     # Verranno scansionati propertymarket, alliance, franksalt e remax-malta
     sample_matches = [
         {
-            'location': 'Sliema',
-            'price': 1600,
+            'location': 'Birkirkara',
+            'price': 350000,
             'bedrooms': 2,
-            'contractType': 'Long Let',
-            'url': 'https://propertymarket.com.mt/'
+            'contractType': 'Sale',
+            'url': 'https://www.alliance.mt/'
         },
         {
             'location': 'St. Julian\'s',
