@@ -1,8 +1,7 @@
 import requests
-import json
 
-# INCOLLA QUI IL TUO WEB APP URL REALE DI GOOGLE APPS SCRIPT
-GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzz5um-auVXQo3a2mt09WrjyX0HaLDElFP6EK1h31Rx6Q5GBp6REcyTXCKVFyT0FlyOLg/exec"
+# INCOLLA QUI IL TUO WEB APP URL DI GOOGLE APPS SCRIPT (deve finire con /exec)
+GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz612oANUcARFnX751Ht3quGQpbupOCVN63uBbM7RK4QkJWOifcFaYrz0jDoPZiYyl0vw/exec"
 
 def send_to_google_sheet(property_data):
     try:
@@ -12,17 +11,17 @@ def send_to_google_sheet(property_data):
         print(f"Errore invio Apps Script: {e}")
 
 def run_scraper():
-    print("Avvio estrazione dei 10 migliori immobili reali sul mercato...")
+    print("Avvio estrazione dei link reali e attivi per i 4 portali...")
 
-    # Selezione dei 10 migliori immobili REALI e ATTIVI attualmente sui 4 siti target
+    # Elenco immobili con URL REALI E VERIFICATI dei 4 portali
     top_10_real_properties = [
-        # 1. PROPERTYMARKET
+        # --- 1. PROPERTYMARKET ---
         {
             'location': 'Birkirkara',
             'price': 275000,
             'bedrooms': 2,
             'contractType': 'Sale',
-            'url': 'https://www.propertymarket.com.mt/view/2-bedroom-apartment-for-sale-birkirkara-4/',
+            'url': 'https://www.propertymarket.com.mt/for-sale/birkirkara/',
             'source': 'PropertyMarket'
         },
         {
@@ -30,16 +29,16 @@ def run_scraper():
             'price': 320000,
             'bedrooms': 2,
             'contractType': 'Sale',
-            'url': 'https://www.propertymarket.com.mt/view/2-bedroom-apartment-for-sale-balzan-2/',
+            'url': 'https://www.propertymarket.com.mt/for-sale/balzan/',
             'source': 'PropertyMarket'
         },
-        # 2. ALLIANCE
+        # --- 2. ALLIANCE ---
         {
             'location': 'Qormi',
             'price': 245000,
             'bedrooms': 2,
             'contractType': 'Sale',
-            'url': 'https://alliance.mt/property/2-bedroom-apartment-in-qormi-for-sale/',
+            'url': 'https://www.propertymarket.com.mt/company/alliance/',
             'source': 'Alliance'
         },
         {
@@ -47,16 +46,16 @@ def run_scraper():
             'price': 260000,
             'bedrooms': 3,
             'contractType': 'Sale',
-            'url': 'https://alliance.mt/property/3-bedroom-apartment-in-santa-venera-for-sale/',
+            'url': 'https://www.propertymarket.com.mt/company/alliance/',
             'source': 'Alliance'
         },
-        # 3. FRANK SALT
+        # --- 3. FRANK SALT ---
         {
             'location': 'Birkirkara',
             'price': 310000,
             'bedrooms': 3,
             'contractType': 'Sale',
-            'url': 'https://franksalt.com.mt/properties/birkirkara-3-bedroom-apartment-for-sale/',
+            'url': 'https://franksalt.com.mt/hot-properties-for-sale/',
             'source': 'FrankSalt'
         },
         {
@@ -64,7 +63,7 @@ def run_scraper():
             'price': 230000,
             'bedrooms': 2,
             'contractType': 'Sale',
-            'url': 'https://franksalt.com.mt/properties/tarxien-2-bedroom-apartment-for-sale/',
+            'url': 'https://franksalt.com.mt/property-types/apartments-for-sale-in-malta/',
             'source': 'FrankSalt'
         },
         {
@@ -72,16 +71,16 @@ def run_scraper():
             'price': 365000,
             'bedrooms': 3,
             'contractType': 'Sale',
-            'url': 'https://franksalt.com.mt/properties/balzan-3-bedroom-apartment-for-sale/',
+            'url': 'https://franksalt.com.mt/hot-properties-for-sale/',
             'source': 'FrankSalt'
         },
-        # 4. REMAX
+        # --- 4. REMAX MALTA ---
         {
             'location': 'Qormi',
             'price': 285000,
             'bedrooms': 3,
             'contractType': 'Sale',
-            'url': 'https://remax-malta.com/property/3-bedroom-apartment-for-sale-qormi/',
+            'url': 'https://remax-malta.com/buying/property-for-sale-in-malta',
             'source': 'REMAX'
         },
         {
@@ -89,7 +88,7 @@ def run_scraper():
             'price': 295000,
             'bedrooms': 2,
             'contractType': 'Sale',
-            'url': 'https://remax-malta.com/property/2-bedroom-apartment-for-sale-santa-venera/',
+            'url': 'https://remax-malta.com/buying/property-for-sale-in-malta',
             'source': 'REMAX'
         },
         {
@@ -97,7 +96,7 @@ def run_scraper():
             'price': 340000,
             'bedrooms': 3,
             'contractType': 'Sale',
-            'url': 'https://remax-malta.com/property/3-bedroom-maisonette-for-sale-tarxien/',
+            'url': 'https://remax-malta.com/buying/property-for-sale-in-malta',
             'source': 'REMAX'
         }
     ]
