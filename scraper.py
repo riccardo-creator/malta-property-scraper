@@ -1,108 +1,63 @@
 import requests
 
-# Il tuo URL di Google Apps Script (assicurati che finisca con /exec)
-GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz612oANUcARFnX751Ht3quGQpbupOCVN63uBbM7RK4QkJWOifcFaYrz0jDoPZiYyl0vw/exec"
+# CONFIGURAZIONE TELEGRAM
+TELEGRAM_TOKEN = "INCOLLA_QUI_IL_TUO_TOKEN_BOTFATHER"
+CHAT_ID = "8933868744"
 
-def send_to_google_sheet(property_data):
+def send_telegram_direct(property_data):
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    
+    msg = (
+        f"<b>🎉 NUOVO MATCH TROVATO!</b>\n\n"
+        f"<b>Cliente:</b> Paulette Attard\n"
+        f"<b>Contatto:</b> +35699999999\n\n"
+        f"<b>Dettagli Immobile:</b>\n"
+        f"📍 <b>Zona:</b> {property_data['location']}\n"
+        f"💰 <b>Prezzo:</b> €{property_data['price']:,}\n"
+        f"🛏 <b>Camere:</b> {property_data['bedrooms']}\n"
+        f"📋 <b>Contratto:</b> {property_data['contractType']}\n"
+        f"🏢 <b>Fonte:</b> {property_data['source']}\n\n"
+        f"🔗 <a href='{property_data['url']}'>Apri Ricerca / Immobili Live</a>"
+    )
+    
+    payload = {
+        "chat_id": CHAT_ID,
+        "text": msg,
+        "parse_mode": "HTML",
+        "disable_web_page_preview": False
+    }
+    
     try:
-        # Timeout ridotto a 3 secondi per evitare il blocco del workflow
-        response = requests.post(GOOGLE_WEB_APP_URL, json=property_data, timeout=3)
-        print(f"Inviato: {property_data['location']} - €{property_data['price']} [{property_data['source']}]")
+        res = requests.post(url, json=payload, timeout=10)
+        print(f"Inviato {property_data['location']} ({property_data['source']}): Status {res.status_code}")
     except Exception as e:
-        print(f"Inviato (senza attesa): {property_data['location']}")
+        print(f"Errore invio: {e}")
 
 def run_scraper():
-    print("Inizio invio immediato dei 10 immobili con link ufficiali...")
+    print("Avvio invio diretto a Telegram...")
 
     top_10_properties = [
-        # --- 1. PROPERTYMARKET ---
-        {
-            'location': 'Birkirkara',
-            'price': 270000,
-            'bedrooms': 2,
-            'contractType': 'Sale',
-            'url': 'https://www.propertymarket.com.mt/for-sale/birkirkara/',
-            'source': 'PropertyMarket'
-        },
-        {
-            'location': 'Balzan',
-            'price': 315000,
-            'bedrooms': 2,
-            'contractType': 'Sale',
-            'url': 'https://www.propertymarket.com.mt/for-sale/balzan/',
-            'source': 'PropertyMarket'
-        },
-        # --- 2. ALLIANCE ---
-        {
-            'location': 'Qormi',
-            'price': 240000,
-            'bedrooms': 2,
-            'contractType': 'Sale',
-            'url': 'https://alliance.mt/buy/',
-            'source': 'Alliance'
-        },
-        {
-            'location': 'St Venera',
-            'price': 265000,
-            'bedrooms': 3,
-            'contractType': 'Sale',
-            'url': 'https://alliance.mt/buy/',
-            'source': 'Alliance'
-        },
-        # --- 3. FRANK SALT ---
-        {
-            'location': 'Birkirkara',
-            'price': 310000,
-            'bedrooms': 3,
-            'contractType': 'Sale',
-            'url': 'https://franksalt.com.mt/hot-properties-for-sale/',
-            'source': 'FrankSalt'
-        },
-        {
-            'location': 'Tarxien',
-            'price': 225000,
-            'bedrooms': 2,
-            'contractType': 'Sale',
-            'url': 'https://franksalt.com.mt/property-types/apartments-for-sale-in-malta/',
-            'source': 'FrankSalt'
-        },
-        {
-            'location': 'Balzan',
-            'price': 360000,
-            'bedrooms': 3,
-            'contractType': 'Sale',
-            'url': 'https://franksalt.com.mt/hot-properties-for-sale/',
-            'source': 'FrankSalt'
-        },
-        # --- 4. REMAX MALTA ---
-        {
-            'location': 'Qormi',
-            'price': 280000,
-            'bedrooms': 3,
-            'contractType': 'Sale',
-            'url': 'https://remax-malta.com/buying/property-for-sale-in-malta',
-            'source': 'REMAX'
-        },
-        {
-            'location': 'St Venera',
-            'price': 290000,
-            'bedrooms': 2,
-            'contractType': 'Sale',
-            'url': 'https://remax-malta.com/buying/property-for-sale-in-malta',
-            'source': 'REMAX'
-        },
-        {
-            'location': 'Tarxien',
-            'price': 335000,
-            'bedrooms': 3,
-            'contractType': 'Sale',
-            'url': 'https://remax-malta.com/buying/property-for-sale-in-malta',
-            'source': 'REMAX'
-        }
+        # PROPERTYMARKET (Pagine di ricerca per località specifiche)
+        {'location': 'Birkirkara', 'price': 270000, 'bedrooms': 2, 'contractType': 'Sale', 'source': 'PropertyMarket', 'url': 'https://www.propertymarket.com.mt/for-sale/birkirkara/'},
+        {'location': 'Balzan', 'price': 315000, 'bedrooms': 2, 'contractType': 'Sale', 'source': 'PropertyMarket', 'url': 'https://www.propertymarket.com.mt/for-sale/balzan/'},
+        
+        # ALLIANCE
+        {'location': 'Qormi', 'price': 240000, 'bedrooms': 2, 'contractType': 'Sale', 'source': 'Alliance', 'url': 'https://alliance.mt/buy/'},
+        {'location': 'St Venera', 'price': 265000, 'bedrooms': 3, 'contractType': 'Sale', 'source': 'Alliance', 'url': 'https://alliance.mt/buy/'},
+        
+        # FRANK SALT
+        {'location': 'Birkirkara', 'price': 310000, 'bedrooms': 3, 'contractType': 'Sale', 'source': 'FrankSalt', 'url': 'https://franksalt.com.mt/hot-properties-for-sale/'},
+        {'location': 'Tarxien', 'price': 225000, 'bedrooms': 2, 'contractType': 'Sale', 'source': 'FrankSalt', 'url': 'https://franksalt.com.mt/property-types/apartments-for-sale-in-malta/'},
+        {'location': 'Balzan', 'price': 360000, 'bedrooms': 3, 'contractType': 'Sale', 'source': 'FrankSalt', 'url': 'https://franksalt.com.mt/hot-properties-for-sale/'},
+        
+        # REMAX
+        {'location': 'Qormi', 'price': 280000, 'bedrooms': 3, 'contractType': 'Sale', 'source': 'REMAX', 'url': 'https://remax-malta.com/buying/property-for-sale-in-malta'},
+        {'location': 'St Venera', 'price': 290000, 'bedrooms': 2, 'contractType': 'Sale', 'source': 'REMAX', 'url': 'https://remax-malta.com/buying/property-for-sale-in-malta'},
+        {'location': 'Tarxien', 'price': 335000, 'bedrooms': 3, 'contractType': 'Sale', 'source': 'REMAX', 'url': 'https://remax-malta.com/buying/property-for-sale-in-malta'}
     ]
 
     for prop in top_10_properties:
-        send_to_google_sheet(prop)
+        send_telegram_direct(prop)
 
 if __name__ == "__main__":
     run_scraper()
