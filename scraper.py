@@ -4,7 +4,7 @@ import json
 import re
 
 # URL della tua Web App su Google Apps Script
-GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz612oANUcARFnX751Ht3quGQpbupOCVN63uBbM7RK4QkJWOifcFaYrz0jDoPZiYyl0vw/exec"
+GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxF9JNEFYG-tbPg39Hnh4cJ7SeXdLCYhPOc1ZR7vkd3LwTaLDR0ix2F75ozendhBEdh5w/exec"
 
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
